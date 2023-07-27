@@ -1,20 +1,73 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function App() {
+const HomeScreen= ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Travel Diary</Text>
+      <Text style={styles.headerText}>Travel Diary</Text>
+      <TouchableOpacity
+        style={styles.menuButton}
+        onPress={() => navigation.navigate('Entries')}
+      >
+        <Text style={styles.menuButtonText}>Entries</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
-}
+};
+
+const EntriesScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headerText}></Text>
+      {/* Add your entries list or content here */}
+    </View>
+  );
+};
+
+const Stack = createStackNavigator();
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }} />
+        <Stack.Screen name="Entries" component={EntriesScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    marginTop: 65,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'blue',
+  },
+  menuButton: {
+    backgroundColor: '#ddd',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  menuButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });
+
+
+export default App;
