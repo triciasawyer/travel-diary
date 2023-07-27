@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ed22560e-7279-4b84-9e20-ef88138dcf6c"
+      }
+    },
+    "owner": "triciasaw"
   }
 }
