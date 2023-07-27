@@ -26,7 +26,6 @@ const Entries = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.headerText}>Entries</Text>
             {/* List of entries */}
             {entries.map((entry) => (
                 <TouchableOpacity
@@ -74,12 +73,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginTop: 65,
-    },
-    headerText: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: 'blue',
     },
     entryItem: {
         width: '100%',

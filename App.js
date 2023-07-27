@@ -19,7 +19,7 @@ const HomeScreen = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.menuButton}
-        onPress={() => navigation.navigate('MyTrips')}
+        onPress={() => navigation.navigate('My Trips')}
       >
         <Text style={styles.menuButtonText}>My Trips</Text>
       </TouchableOpacity>
@@ -39,7 +39,7 @@ const App = () => {
           component={HomeScreen}
           options={{ headerShown: false }}/>
         <Stack.Screen name="Entries" component={Entries} />
-        <Stack.Screen name="MyTrips" component={MyTripsScreen} />
+        <Stack.Screen name="My Trips" component={MyTrips} />
       </Stack.Navigator>
     </NavigationContainer>
   );
