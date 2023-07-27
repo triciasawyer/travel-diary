@@ -1,9 +1,12 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Entries from './Components/Entries';
+import MyTrips from './Components/MyTrips';
 
-const HomeScreen= ({ navigation }) => {
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Travel Diary</Text>
@@ -13,16 +16,14 @@ const HomeScreen= ({ navigation }) => {
       >
         <Text style={styles.menuButtonText}>Entries</Text>
       </TouchableOpacity>
-      <StatusBar style="auto" />
-    </View>
-  );
-};
 
-const EntriesScreen = () => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.headerText}></Text>
-      {/* Add your entries list or content here */}
+      <TouchableOpacity
+        style={styles.menuButton}
+        onPress={() => navigation.navigate('MyTrips')}
+      >
+        <Text style={styles.menuButtonText}>My Trips</Text>
+      </TouchableOpacity>
+      <StatusBar style="auto" />
     </View>
   );
 };
@@ -36,8 +37,9 @@ const App = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ headerShown: false }} />
-        <Stack.Screen name="Entries" component={EntriesScreen} />
+          options={{ headerShown: false }}/>
+        <Stack.Screen name="Entries" component={Entries} />
+        <Stack.Screen name="MyTrips" component={MyTripsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    marginVertical: 10,
   },
   menuButtonText: {
     fontSize: 18,
@@ -68,6 +71,5 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 });
-
 
 export default App;
