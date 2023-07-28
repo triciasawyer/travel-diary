@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, ScrollView, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
+import TripItem from './TripItem';
 
 const MyTrips = () => {
     const [trips, setTrips] = useState([]);
@@ -9,11 +10,6 @@ const MyTrips = () => {
     const [tripImage, setTripImage] = useState('');
     const [tripNotes, setTripNotes] = useState('');
     const [showForm, setShowForm] = useState(false);
-    const [clickedTrip, setClickedTrip] = useState(null);
-    const [editingTrip, setEditingTrip] = useState(null);
-    const [editedTripName, setEditedTripName] = useState('');
-    const [editedTripImage, setEditedTripImage] = useState('');
-    const [editedTripNotes, setEditedTripNotes] = useState('');
 
     const addTrip = () => {
         if (tripName && tripNotes) {
@@ -33,10 +29,10 @@ const MyTrips = () => {
 
     const pickImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  if (status !== 'granted') {
-    alert('Sorry, we need camera roll permissions to select an image.');
-    return;
-  }
+        if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to select an image.');
+            return;
+        }
         try {
             const result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -55,50 +51,20 @@ const MyTrips = () => {
 
     const toggleForm = () => {
         setShowForm(!showForm);
-        setEditingTrip(null);
-        setEditedTripName('');
-        setEditedTripImage('');
-        setEditedTripNotes('');
     };
 
-    const handleTripClick = (trip) => {
-        setClickedTrip(trip);
-      };
-    
-      const handleEditTrip = (trip) => {
-        setEditingTrip(trip);
-    setEditedTripName(trip.name);
-    setEditedTripImage(trip.image);
-    setEditedTripNotes(trip.notes);
-    setShowForm(true);
-      };
 
-      const updateTrip = () => {
-        if (editedTripName && editedTripNotes) {
-          const updatedTrips = trips.map((trip) =>
-            trip.id === editingTrip.id
-              ? {
-                  ...trip,
-                  name: editedTripName,
-                  image: editedTripImage,
-                  notes: editedTripNotes,
-                }
-              : trip
-          );
-          setTrips(updatedTrips);
-          setEditingTrip(null);
-          setEditedTripName('');
-          setEditedTripImage('');
-          setEditedTripNotes('');
-          setShowForm(false);
-        }
-      };
-    
-      const handleDeleteTrip = () => {
-        const updatedTrips = trips.filter((trip) => trip.id !== clickedTrip.id);
-    setTrips(updatedTrips);
-    setClickedTrip(null);
-      };
+    const handleEditTrip = (updatedTrip) => {
+        const updatedTrips = trips.map((trip) =>
+            trip.id === updatedTrip.id ? updatedTrip : trip
+        );
+        setTrips(updatedTrips);
+    };
+
+    const handleDeleteTrip = (deletedTrip) => {
+        const updatedTrips = trips.filter((trip) => trip.id !== deletedTrip.id);
+        setTrips(updatedTrips);
+    };
 
     return (
         <ImageBackground
@@ -109,71 +75,47 @@ const MyTrips = () => {
             <View style={styles.overlay} />
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 {trips.map((trip) => (
-                    <TouchableOpacity key={trip.id} onPress={() => handleTripClick(trip)}>
-                        <View style={styles.tripItem}>
-              <Text style={styles.tripName}>{trip.name}</Text>
-                        <ImageBackground source={{ uri: trip.image }} style={styles.tripImage}>
-                    <Text style={styles.tripOverlayText}>{trip.name}</Text>          
-                        </ImageBackground>
-                    </View>
-                    </TouchableOpacity>
+                    <TripItem
+                        key={trip.id}
+                        trip={trip}
+                        onEdit={handleEditTrip}
+                        onDelete={handleDeleteTrip}
+                    />
                 ))}
 
-{clickedTrip && (
-          <View style={styles.tripItem}>
-            <Text style={styles.tripName}>{clickedTrip.name}</Text>
-            <Text style={styles.tripNotes}>{clickedTrip.notes}</Text>
-            <ImageBackground source={{ uri: clickedTrip.image }} style={styles.tripImage}>
-            </ImageBackground>
+                {showForm && (
+                    <View style={styles.newTripForm}>
+                        <TouchableOpacity style={styles.addImageButton} onPress={pickImage}>
+                            <Text style={styles.addImageButtonText}>Add Image</Text>
+                        </TouchableOpacity>
+                        {tripImage ? (
+                            <Image
+                                source={{ uri: tripImage }}
+                                style={styles.selectedImage}
+                            />
+                        ) : null}
 
-            <TouchableOpacity style={styles.editButton} onPress={() => handleEditTrip(clickedTrip)}>
-              <MaterialIcons name="edit" size={24} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteTrip}>
-              <MaterialIcons name="delete" size={24} color="white" />
-            </TouchableOpacity>
-          </View>
-        )}
-
-{showForm && (
-                <View style={styles.newTripForm}>
-                    <TouchableOpacity style={styles.addImageButton} onPress={pickImage}>
-                        <Text style={styles.addImageButtonText}>Add Image</Text>
-                    </TouchableOpacity>
-                    {editingTrip || tripImage || editedTripImage ? (
-                        <Image
-                        source={{ uri: tripImage }}
-                        style={styles.selectedImage}
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Trip Name"
+                            value={tripName}
+                            onChangeText={setTripName}
                         />
-                    ) : null}
 
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Trip Name"
-                        value={editingTrip ? editedTripName : tripName}
-                        onChangeText={(text) =>
-                            editingTrip ? setEditedTripName(text) : setTripName(text)}
-                    />
+                        <TextInput
+                            style={[styles.input, styles.notesInput]}
+                            multiline
+                            placeholder="Trip Notes"
+                            value={tripNotes}
+                            onChangeText={setTripNotes}
+                        />
 
-                    <TextInput
-                        style={[styles.input, styles.notesInput]}
-                        multiline
-                        placeholder="Trip Notes"
-                        value={editingTrip ? editedTripNotes : tripNotes}
-                        onChangeText={(text) =>
-                            editingTrip ? setEditedTripNotes(text) : setTripNotes(text)}
-                    />
-
-                    <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={editingTrip ? updateTrip : addTrip}
-                    >
-                        <Text style={styles.addButtonLabel}>
-                        {editingTrip ? 'Update Trip' : 'Add Trip'}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-)}
+                        <TouchableOpacity
+                            style={styles.addButton} onPress={addTrip}>
+                            <Text style={styles.addButtonLabel}>Add Trip</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </ScrollView>
             <TouchableOpacity style={styles.addTripButton} onPress={toggleForm}>
                 <Text style={styles.addTripButtonText}>Add Trip</Text>
@@ -195,13 +137,6 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         padding: 20,
-    },
-    headerText: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: 'white',
-        marginBottom: 20,
-        textAlign: 'center',
     },
     tripItem: {
         backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent white background
@@ -295,21 +230,21 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 5,
         borderRadius: 5,
-      },
-      deleteButton: {
+    },
+    deleteButton: {
         position: 'absolute',
         bottom: 10,
         right: 10,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 5,
         borderRadius: 5,
-      },
-      tripOverlayText: {
+    },
+    tripOverlayText: {
         color: 'white',
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-      },
+    },
 });
 
 export default MyTrips;
