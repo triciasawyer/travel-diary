@@ -8,6 +8,7 @@ const MyTrips = () => {
     const [tripName, setTripName] = useState('');
     const [tripImage, setTripImage] = useState('');
     const [tripNotes, setTripNotes] = useState('');
+    const [showForm, setShowForm] = useState(false);
 
     const addTrip = () => {
         if (tripName && tripNotes) {
@@ -21,6 +22,7 @@ const MyTrips = () => {
             setTripName('');
             setTripImage('');
             setTripNotes('');
+            setShowForm(false);
         }
     };
 
@@ -46,6 +48,10 @@ const MyTrips = () => {
         }
     };
 
+    const toggleForm = () => {
+        setShowForm(!showForm);
+    };
+
     return (
         <ImageBackground
             source={require('../assets/map.png')}
@@ -64,7 +70,7 @@ const MyTrips = () => {
                         </ImageBackground>
                     </View>
                 ))}
-
+{showForm && (
                 <View style={styles.newTripForm}>
                     <TouchableOpacity style={styles.addImageButton} onPress={pickImage}>
                         <Text style={styles.addImageButtonText}>Add Image</Text>
@@ -92,7 +98,11 @@ const MyTrips = () => {
                         <Text style={styles.addButtonLabel}>Add Trip</Text>
                     </TouchableOpacity>
                 </View>
+)}
             </ScrollView>
+            <TouchableOpacity style={styles.addTripButton} onPress={toggleForm}>
+                <Text style={styles.addTripButtonText}>Add Trip</Text>
+            </TouchableOpacity>
         </ImageBackground>
     );
 };
@@ -186,6 +196,22 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 8,
         marginBottom: 10,
+    },
+    addTripButton: {
+        backgroundColor: 'white',
+        paddingVertical: 12,
+        borderRadius: 8,
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 20,
+        left: '50%',
+        transform: [{ translateX: -50 }],
+        width: 150,
+    },
+    addTripButtonText: {
+        color: 'black',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
 
