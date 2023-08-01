@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, ScrollView, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import TripItem from './TripItem';
 
 const MyTrips = () => {
@@ -66,12 +67,10 @@ const MyTrips = () => {
         setTrips(updatedTrips);
     };
 
+    
+
     return (
-        <ImageBackground
-            source={require('../assets/map.png')}
-            style={styles.container}
-            resizeMode="cover"
-        >
+        <>
             <View style={styles.overlay} />
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 {trips.map((trip) => (
@@ -85,15 +84,16 @@ const MyTrips = () => {
 
                 {showForm && (
                     <View style={styles.newTripForm}>
-                        <TouchableOpacity style={styles.addImageButton} onPress={pickImage}>
-                            <Text style={styles.addImageButtonText}>Add Image</Text>
-                        </TouchableOpacity>
                         {tripImage ? (
                             <Image
                                 source={{ uri: tripImage }}
                                 style={styles.selectedImage}
                             />
-                        ) : null}
+                        ) : (
+                            <TouchableOpacity style={styles.addImageButton} onPress={pickImage}>
+                                <MaterialIcons name="add-a-photo" size={24} color="white" />
+                            </TouchableOpacity>
+                        )}
 
                         <TextInput
                             style={styles.input}
@@ -112,7 +112,7 @@ const MyTrips = () => {
 
                         <TouchableOpacity
                             style={styles.addButton} onPress={addTrip}>
-                            <Text style={styles.addButtonLabel}>Add Trip</Text>
+                            <Text style={styles.addButtonLabel}>Add</Text>
                         </TouchableOpacity>
                     </View>
                 )}
@@ -120,7 +120,7 @@ const MyTrips = () => {
             <TouchableOpacity style={styles.addTripButton} onPress={toggleForm}>
                 <Text style={styles.addTripButtonText}>Add Trip</Text>
             </TouchableOpacity>
-        </ImageBackground>
+        </>
     );
 };
 
@@ -133,13 +133,12 @@ const styles = StyleSheet.create({
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
     },
     contentContainer: {
         padding: 20,
     },
     tripItem: {
-        backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent white background
+        backgroundColor: 'red',
         borderRadius: 8,
         padding: 10,
         marginBottom: 20,
@@ -151,7 +150,7 @@ const styles = StyleSheet.create({
     },
     tripNotes: {
         fontSize: 16,
-        color: '#333',
+        color: '#ccc',
         marginBottom: 10,
     },
     tripImage: {
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     newTripForm: {
-        backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent white background
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
         borderRadius: 8,
         padding: 20,
     },
@@ -175,31 +174,26 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     notesInput: {
-        height: 100, // Adjust the height of the notes input
+        height: 50,
     },
     addButton: {
-        backgroundColor: 'green',
-        paddingVertical: 12,
-        borderRadius: 8,
-        alignItems: 'center',
+        paddingVertical: 10,
+        backgroundColor: 'red',
+        width: 50,
+        height: 40,
+        borderRadius: 10,
+        marginTop: 10,
+        left: '42%',
     },
     addButtonLabel: {
         color: 'white',
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontSize: 20,
+        textAlign: 'center',
+        paddingBottom: 10,
     },
     addImageButton: {
-        backgroundColor: '#2196F3',
-        paddingVertical: 5,
-        borderRadius: 8,
-        alignItems: 'center',
-        width: 85,
-        height: 30,
-        marginBottom: 10,
-    },
-    addImageButtonText: {
-        color: 'white',
-        fontSize: 15,
+        marginLeft: 280,
+        marginBottom: 15,
     },
     selectedImage: {
         width: '100%',
@@ -216,7 +210,7 @@ const styles = StyleSheet.create({
         bottom: 20,
         left: '50%',
         transform: [{ translateX: -50 }],
-        width: 150,
+        width: 110,
     },
     addTripButtonText: {
         color: 'black',
