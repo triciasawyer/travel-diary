@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, ScrollView, Image, KeyboardAvoidingView, FlatList } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -28,6 +28,8 @@ const MyTrips = () => {
         }
     };
 
+    const navigation = useNavigation();
+
     const pickImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
@@ -54,75 +56,70 @@ const MyTrips = () => {
         setShowForm(!showForm);
     };
 
-
-    const handleEditTrip = (updatedTrip) => {
-        const updatedTrips = trips.map((trip) =>
-            trip.id === updatedTrip.id ? updatedTrip : trip
-        );
-        setTrips(updatedTrips);
+    const handleTripClick = (trip) => {
+        navigation.navigate('TripProfile', { trip });
     };
 
-    const handleDeleteTrip = (deletedTrip) => {
-        const updatedTrips = trips.filter((trip) => trip.id !== deletedTrip.id);
-        setTrips(updatedTrips);
-    };
+    const renderTripItem = ({ item }) => (
+        <TouchableOpacity onPress={() => handleTripClick(item)}>
+          <View style={styles.tripItem}>
+            {item.image ? (
+              <Image source={{ uri: item.image }} style={styles.tripImage} />
+            ) : (
+              <View style={styles.tripImagePlaceholder}>
+                <MaterialIcons name="photo" size={50} color="white" />
+              </View>
+            )}
+            <Text style={styles.tripName}>{item.name}</Text>
+          </View>
+        </TouchableOpacity>
+      );
 
+      return (
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
+          <View style={styles.overlay} />
+          <FlatList
+            data={trips}
+            renderItem={renderTripItem}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.contentContainer}
+          />
+          {showForm && (
+            <View style={styles.newTripForm}>
+              {tripImage ? (
+                <Image source={{ uri: tripImage }} style={styles.selectedImage} />
+              ) : (
+                <TouchableOpacity style={styles.addImageButton} onPress={pickImage}>
+                  <MaterialIcons name="add-a-photo" size={24} color="white" />
+                </TouchableOpacity>
+              )}
     
-
-    return (
-        <>
-            <View style={styles.overlay} />
-            <ScrollView contentContainerStyle={styles.contentContainer}>
-                {trips.map((trip) => (
-                    <TripItem
-                        key={trip.id}
-                        trip={trip}
-                        onEdit={handleEditTrip}
-                        onDelete={handleDeleteTrip}
-                    />
-                ))}
-
-                {showForm && (
-                    <View style={styles.newTripForm}>
-                        {tripImage ? (
-                            <Image
-                                source={{ uri: tripImage }}
-                                style={styles.selectedImage}
-                            />
-                        ) : (
-                            <TouchableOpacity style={styles.addImageButton} onPress={pickImage}>
-                                <MaterialIcons name="add-a-photo" size={24} color="white" />
-                            </TouchableOpacity>
-                        )}
-
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Trip Name"
-                            value={tripName}
-                            onChangeText={setTripName}
-                        />
-
-                        <TextInput
-                            style={[styles.input, styles.notesInput]}
-                            multiline
-                            placeholder="Trip Notes"
-                            value={tripNotes}
-                            onChangeText={setTripNotes}
-                        />
-
-                        <TouchableOpacity
-                            style={styles.addButton} onPress={addTrip}>
-                            <Text style={styles.addButtonLabel}>Add</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
-            </ScrollView>
+              <TextInput
+                style={styles.input}
+                placeholder="Trip Name"
+                value={tripName}
+                onChangeText={setTripName}
+              />
+    
+              <TextInput
+                style={[styles.input, styles.notesInput]}
+                multiline
+                placeholder="Trip Notes"
+                value={tripNotes}
+                onChangeText={setTripNotes}
+              />
+    
+              <TouchableOpacity style={styles.addButton} onPress={addTrip}>
+                <Text style={styles.addButtonLabel}>Add</Text>
+              </TouchableOpacity>
+            </View>
+          )}
             <TouchableOpacity style={styles.addTripButton} onPress={toggleForm}>
-                <Text style={styles.addTripButtonText}>Add Trip</Text>
-            </TouchableOpacity>
-        </>
-    );
-};
+            <Text style={styles.addTripButtonText}>Add Trip</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      );
+    };
 
 
 const styles = StyleSheet.create({
@@ -138,7 +135,7 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     tripItem: {
-        backgroundColor: 'red',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
         borderRadius: 8,
         padding: 10,
         marginBottom: 20,
@@ -162,9 +159,11 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     newTripForm: {
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
         borderRadius: 8,
         padding: 20,
+        marginTop: 10,
+        marginBottom: 100,
     },
     input: {
         borderWidth: 1,
@@ -178,7 +177,7 @@ const styles = StyleSheet.create({
     },
     addButton: {
         paddingVertical: 10,
-        backgroundColor: 'red',
+        backgroundColor: 'black',
         width: 50,
         height: 40,
         borderRadius: 10,

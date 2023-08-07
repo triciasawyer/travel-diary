@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Entries from './Components/Entries';
 import MyTrips from './Components/MyTrips';
+import TripProfile from './Components/TripProfile';
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
           options={{ headerShown: false }}/>
         <Stack.Screen name="Entries" component={Entries} />
         <Stack.Screen name="My Trips" component={MyTrips} />
+        <Stack.Screen name="TripProfile" component={TripProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
