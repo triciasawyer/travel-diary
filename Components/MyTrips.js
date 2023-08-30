@@ -57,7 +57,7 @@ const MyTrips = () => {
     };
 
     const handleTripClick = (trip) => {
-        navigation.navigate('TripProfile', { trip });
+        navigation.navigate('TripProfile', { trip, trips });
     };
 
     const renderTripItem = ({ item }) => (
