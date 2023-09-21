@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const TripProfile = ({ route }) => {
-    const { trip, trips, updateTrips } = route.params;
+const TripProfile = ({ route, updateTrips }) => {
+    const { trip, trips } = route.params;
 
     console.log('TripProfile trip:', trip);
     console.log('TripProfile trips:', trips);
@@ -12,16 +12,12 @@ const TripProfile = ({ route }) => {
         const updatedTrips = trips.map((t) =>
             t.id === updatedTrip.id ? updatedTrip : t
         );
-        if (route.params && route.params.updateTrips) {
-            route.params.updateTrips(updatedTrips);
-        }
+        updateTrips(updatedTrips);
     };
 
     const handleDelete = (deletedTrip) => {
         const updatedTrips = trips.filter((t) => t.id !== deletedTrip.id);
-        if (route.params && route.params.updateTrips) {
-            route.params.updateTrips(updatedTrips);
-        }
+        updateTrips(updatedTrips);
     };
 
     return (

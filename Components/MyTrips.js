@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import TripItem from './TripItem';
 
-const MyTrips = () => {
+const MyTrips = ({ updateTrips }) => {
     const [trips, setTrips] = useState([]);
     const [tripName, setTripName] = useState('');
     const [tripImage, setTripImage] = useState('');
@@ -58,7 +58,7 @@ const MyTrips = () => {
 
     const handleTripClick = (trip) => {
       console.log('MyTrips selected trip:', trip); 
-        navigation.navigate('TripProfile', { trip, trips, updateTrips: updateTrips });
+        navigation.navigate('TripProfile', { trip, trips, updateTrips });
     };
 
     const renderTripItem = ({ item }) => (
