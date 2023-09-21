@@ -44,7 +44,7 @@ const MyTrips = () => {
                 quality: 1,
             });
 
-            if (!result.cancelled) {
+            if (!result.canceled) {
                 setTripImage(result.uri);
             }
         } catch (error) {
@@ -57,7 +57,8 @@ const MyTrips = () => {
     };
 
     const handleTripClick = (trip) => {
-        navigation.navigate('TripProfile', { trip, trips });
+      console.log('MyTrips selected trip:', trip); 
+        navigation.navigate('TripProfile', { trip, trips, updateTrips: updateTrips });
     };
 
     const renderTripItem = ({ item }) => (

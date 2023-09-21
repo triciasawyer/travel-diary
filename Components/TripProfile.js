@@ -2,19 +2,26 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const TripProfile = ({ route, trips, updateTrips }) => {
-    const { trip } = route.params;
+const TripProfile = ({ route }) => {
+    const { trip, trips, updateTrips } = route.params;
+
+    console.log('TripProfile trip:', trip);
+    console.log('TripProfile trips:', trips);
 
     const handleEdit = (updatedTrip) => {
         const updatedTrips = trips.map((t) =>
             t.id === updatedTrip.id ? updatedTrip : t
         );
-        updateTrips(updatedTrips);
+        if (route.params && route.params.updateTrips) {
+            route.params.updateTrips(updatedTrips);
+        }
     };
 
     const handleDelete = (deletedTrip) => {
         const updatedTrips = trips.filter((t) => t.id !== deletedTrip.id);
-        updateTrips(updatedTrips);
+        if (route.params && route.params.updateTrips) {
+            route.params.updateTrips(updatedTrips);
+        }
     };
 
     return (
