@@ -39,28 +39,28 @@ const App = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ headerShown: false }}/>
+          options={{ headerShown: false }} />
         <Stack.Screen name="Entries" component={Entries} />
         <Stack.Screen name="My Trips" component={MyTrips} />
-        
+
         <Stack.Screen
-        name="TripProfile"
-        component={TripProfile}
-        options={{
-          title: 'Trip Profile',
-          headerTintColor: 'white',
-          headerStyle: { backgroundColor: 'blue' },
-        }}
+          name="TripProfile"
+          component={TripProfile}
+          options={{
+            title: 'Trip Profile',
+            headerTintColor: 'white',
+            headerStyle: { backgroundColor: 'blue' },
+          }}
         />
         <Stack.Screen
-    name="EditTrip"
-    component={EditTrip}
-    options={{
-        title: 'Edit Trip',
-        headerTintColor: 'white',
-        headerStyle: { backgroundColor: 'white' },
-    }}
-/>
+          name="EditTrip"
+          component={EditTrip}
+          options={{
+            title: 'Edit Trip',
+            headerTintColor: 'white',
+            headerStyle: { backgroundColor: 'white' },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

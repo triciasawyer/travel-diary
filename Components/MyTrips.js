@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, ScrollView, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native'; 
 
 const MyTrips = () => {
   const [trips, setTrips] = useState([]);
@@ -9,6 +10,7 @@ const MyTrips = () => {
   const [tripImage, setTripImage] = useState('');
   const [tripNotes, setTripNotes] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const navigation = useNavigation(); 
 
   const addTrip = () => {
     if (tripName && tripNotes) {
@@ -60,15 +62,20 @@ const MyTrips = () => {
     >
       <View style={styles.overlay} />
       <ScrollView contentContainerStyle={styles.contentContainer}>
-
         {trips.map((trip) => (
-          <View key={trip.id} style={styles.tripItem}>
+           <TouchableOpacity
+           key={trip.id}
+           style={styles.tripItem}
+           onPress={() => {
+             navigation.navigate('TripProfile', { trip, trips }); // Pass both trip and trips
+           }}
+         >
             <Text style={styles.tripName}>{trip.name}</Text>
             <Text style={styles.tripNotes}>{trip.notes}</Text>
             <ImageBackground source={{ uri: trip.image }} style={styles.tripImage}>
               {/* You can add any overlay or additional content on the image here */}
             </ImageBackground>
-          </View>
+            </TouchableOpacity>
         ))}
         {showForm && (
           <View style={styles.newTripForm}>
@@ -81,7 +88,7 @@ const MyTrips = () => {
 
             <TextInput
               style={styles.input}
-              placeholder="Trip Name"
+              placeholder="Location"
               value={tripName}
               onChangeText={(text) => setTripName(text)}
             />
@@ -89,7 +96,7 @@ const MyTrips = () => {
             <TextInput
               style={[styles.input, styles.notesInput]}
               multiline
-              placeholder="Trip Notes"
+              placeholder="Notes and memories"
               value={tripNotes}
               onChangeText={(text) => setTripNotes(text)}
             />
@@ -116,7 +123,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   contentContainer: {
     padding: 20,
@@ -129,7 +136,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tripItem: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent white background
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 8,
     padding: 10,
     marginBottom: 20,
@@ -153,7 +160,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   newTripForm: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent white background
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 8,
     padding: 20,
   },
@@ -165,7 +172,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   notesInput: {
-    height: 100, // Adjust the height of the notes input
+    height: 100,
   },
   addButton: {
     backgroundColor: 'green',
