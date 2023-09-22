@@ -41,7 +41,7 @@ const TripItem = ({ trip }) => {
 };
 
 const styles = StyleSheet.create({
-  // Put your existing styles here
+  // Put styles here
 });
 
 export default TripItem;
