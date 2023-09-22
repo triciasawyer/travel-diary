@@ -50,7 +50,7 @@ const TripProfile = ({ route }) => {
             )}
             <View style={styles.tripActions}>
                 <TouchableOpacity onPress={handleEditTrip}>
-                    <MaterialIcons name="edit" size={24} color="black" />
+                    <MaterialIcons name="edit" size={24} color="blue" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleDeleteTrip}>
                     <MaterialIcons name="delete" size={24} color="red" />
