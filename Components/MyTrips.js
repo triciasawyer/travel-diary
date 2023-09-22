@@ -3,9 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, S
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import TripItem from './TripItem';
 
-const MyTrips = ({ updateTrips }) => {
+const MyTrips = () => {
     const [trips, setTrips] = useState([]);
     const [tripName, setTripName] = useState('');
     const [tripImage, setTripImage] = useState('');
@@ -58,7 +57,7 @@ const MyTrips = ({ updateTrips }) => {
 
     const handleTripClick = (trip) => {
       console.log('MyTrips selected trip:', trip); 
-        navigation.navigate('TripProfile', { trip, trips, updateTrips });
+        navigation.navigate('TripProfile', { trip, trips });
     };
 
     const renderTripItem = ({ item }) => (
@@ -216,22 +215,6 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 18,
         fontWeight: 'bold',
-    },
-    editButton: {
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        padding: 5,
-        borderRadius: 5,
-    },
-    deleteButton: {
-        position: 'absolute',
-        bottom: 10,
-        right: 10,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        padding: 5,
-        borderRadius: 5,
     },
     tripOverlayText: {
         color: 'white',

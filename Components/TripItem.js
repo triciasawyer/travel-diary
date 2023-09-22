@@ -2,25 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const TripItem = ({ trip, onEdit, onDelete }) => {
+const TripItem = ({ trip }) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [editedTripName, setEditedTripName] = useState(trip.name);
   const [editedTripImage, setEditedTripImage] = useState(trip.image);
   const [editedTripNotes, setEditedTripNotes] = useState(trip.notes);
 
-  const handleEditTrip = () => {
-    onEdit({
-      ...trip,
-      name: editedTripName,
-      image: editedTripImage,
-      notes: editedTripNotes,
-    });
-    setShowEditForm(false);
-  };
-
-  const handleDeleteTrip = () => {
-    onDelete(trip);
-  };
 
   return (
     <View style={styles.tripItem}>
@@ -30,16 +17,6 @@ const TripItem = ({ trip, onEdit, onDelete }) => {
         <Text style={styles.tripOverlayText}>{trip.name}</Text>
       </ImageBackground>
 
-      {!showEditForm ? (
-        <>
-          <TouchableOpacity style={styles.editButton} onPress={() => setShowEditForm(true)}>
-            <MaterialIcons name="edit" size={24} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteTrip}>
-            <MaterialIcons name="delete" size={24} color="white" />
-          </TouchableOpacity>
-        </>
-      ) : (
         <>
           <Image
             source={{ uri: editedTripImage }}

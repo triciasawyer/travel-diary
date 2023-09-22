@@ -2,23 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const TripProfile = ({ route, updateTrips }) => {
+const TripProfile = ({ route, navigation }) => {
     const { trip, trips } = route.params;
 
     console.log('TripProfile trip:', trip);
     console.log('TripProfile trips:', trips);
 
-    const handleEdit = (updatedTrip) => {
-        const updatedTrips = trips.map((t) =>
-            t.id === updatedTrip.id ? updatedTrip : t
-        );
-        updateTrips(updatedTrips);
-    };
-
-    const handleDelete = (deletedTrip) => {
-        const updatedTrips = trips.filter((t) => t.id !== deletedTrip.id);
-        updateTrips(updatedTrips);
-    };
 
     return (
         <View style={styles.container}>
@@ -33,10 +22,10 @@ const TripProfile = ({ route, updateTrips }) => {
                 </View>
             )}
             <View style={styles.tripActions}>
-                <TouchableOpacity onPress={handleEdit}>
+                <TouchableOpacity>
                     <MaterialIcons name="edit" size={24} color="blue" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handleDelete}>
+                <TouchableOpacity >
                     <MaterialIcons name="delete" size={24} color="red" />
                 </TouchableOpacity>
             </View>
