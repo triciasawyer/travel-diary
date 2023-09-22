@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const TripProfile = ({ route, navigation }) => {
+const TripProfile = ({ route }) => {
     const { trip, trips } = route.params;
 
     console.log('TripProfile trip:', trip);
