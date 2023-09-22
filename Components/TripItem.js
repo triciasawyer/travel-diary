@@ -35,11 +35,7 @@ const TripItem = ({ trip }) => {
             value={editedTripNotes}
             onChangeText={text => setEditedTripNotes(text)}
           />
-          <TouchableOpacity style={styles.addButton} onPress={handleEditTrip}>
-            <Text style={styles.addButtonLabel}>Update Trip</Text>
-          </TouchableOpacity>
         </>
-      )}
     </View>
   );
 };
