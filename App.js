@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Entries from './Components/Entries';
 import MyTrips from './Components/MyTrips';
 import TripProfile from './Components/TripProfile';
+import EditTrip from './Components/EditTrip';
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -51,6 +52,15 @@ const App = () => {
           headerStyle: { backgroundColor: 'blue' },
         }}
         />
+        <Stack.Screen
+    name="EditTrip"
+    component={EditTrip}
+    options={{
+        title: 'Edit Trip',
+        headerTintColor: 'white',
+        headerStyle: { backgroundColor: 'white' },
+    }}
+/>
       </Stack.Navigator>
     </NavigationContainer>
   );

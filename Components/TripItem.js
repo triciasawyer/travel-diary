@@ -17,25 +17,25 @@ const TripItem = ({ trip }) => {
         <Text style={styles.tripOverlayText}>{trip.name}</Text>
       </ImageBackground>
 
-        <>
-          <Image
-            source={{ uri: editedTripImage }}
-            style={styles.selectedImage}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Trip Name"
-            value={editedTripName}
-            onChangeText={text => setEditedTripName(text)}
-          />
-          <TextInput
-            style={[styles.input, styles.notesInput]}
-            multiline
-            placeholder="Trip Notes"
-            value={editedTripNotes}
-            onChangeText={text => setEditedTripNotes(text)}
-          />
-        </>
+      <>
+        <Image
+          source={{ uri: editedTripImage }}
+          style={styles.selectedImage}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Trip Name"
+          value={editedTripName}
+          onChangeText={text => setEditedTripName(text)}
+        />
+        <TextInput
+          style={[styles.input, styles.notesInput]}
+          multiline
+          placeholder="Trip Notes"
+          value={editedTripNotes}
+          onChangeText={text => setEditedTripNotes(text)}
+        />
+      </>
     </View>
   );
 };
