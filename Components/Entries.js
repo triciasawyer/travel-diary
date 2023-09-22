@@ -19,11 +19,6 @@ const Entries = () => {
         }
     };
 
-    const deleteEntry = (id) => {
-        const updatedEntries = entries.filter((entry) => entry.id !== id);
-        setEntries(updatedEntries);
-    };
-
     return (
         <View style={styles.container}>
             {/* List of entries */}
@@ -32,7 +27,6 @@ const Entries = () => {
                     key={entry.id}
                     style={styles.entryItem}
                     onPress={() => {
-                        /* Here, you can navigate to a detailed view of the entry for editing or any other action you want to perform */
                     }}
                 >
                     <Text style={styles.entryName}>{entry.name}</Text>

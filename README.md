@@ -1,6 +1,6 @@
 # Travel Diary
 
-I wanted to create a mobile app using React Native that allows users to write down there thoughts or anything they feel they need to write down and get off of their chest, all within a safe place only for them to see.
+I wanted to create a mobile app using React Native that allows users to note there thoughts, add images, and add friends and family, as they log their memories throughout there traveling experiences.
 
 ## Set Up
 
